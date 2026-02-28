@@ -851,6 +851,10 @@
       food_b: 'https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=400',
       food_c: 'https://images.pexels.com/photos/5949903/pexels-photo-5949903.jpeg?auto=compress&cs=tinysrgb&w=400',
       food_d: 'https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=400',
+      age_18: 'img_18.jpg',
+      age_30: 'img_30.jpg',
+      age_40: 'img_40.jpg',
+      age_50: 'img_50.jpg'
     };
 
     const steps = [
@@ -858,14 +862,14 @@
 
       // Q1
       {
-        type: 'q', id: 'age', icon: '🌸', step: 1, label: 'Sobre você',
+        type: 'q', id: 'age', icon: '🌸', step: 1, label: 'Sobre você', imgOpts: true,
         q: 'Qual é a sua faixa de idade?',
         sub: 'A biologia muda em cada fase da vida — e o método precisa acompanhar isso.',
         opts: [
-          { v: '18-29', t: '18 a 29 anos' },
-          { v: '30-39', t: '30 a 39 anos' },
-          { v: '40-49', t: '40 a 49 anos' },
-          { v: '50+', t: '50 anos ou mais' }
+          { v: '18-29', t: '18 a 29 anos', e: '🌸', img: IMG.age_18 },
+          { v: '30-39', t: '30 a 39 anos', e: '🌸', img: IMG.age_30 },
+          { v: '40-49', t: '40 a 49 anos', e: '🌸', img: IMG.age_40 },
+          { v: '50+', t: '50 anos ou mais', e: '🌸', img: IMG.age_50 }
         ],
         insight: (v) => {
           const map = {
