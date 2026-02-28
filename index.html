@@ -51,6 +51,8 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     body::before {
@@ -131,6 +133,10 @@
       box-shadow: 0 8px 32px rgba(74, 51, 41, 0.08);
       position: relative;
       animation: cardIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      flex: 1;
+      /* Permite que o card cresça para preencher a tela */
+      display: flex;
+      flex-direction: column;
     }
 
     @keyframes cardIn {
@@ -672,148 +678,144 @@
       gap: 8px;
     }
 
-    @media (max-width: 480px) {
-      .header {
-        padding: 12px 10px 0;
+    @media (max-width: 500px) {
+      body {
+        background: var(--white);
+        /* No celular, o fundo é branco para ser expansivo */
       }
 
-      .brand {
-        font-size: 11px;
-      }
-
-      .progress-wrap {
-        padding: 12px 12px 0;
+      body::before {
+        display: none;
+        /* Remove gradiente para ficar limpo */
       }
 
       .container {
-        padding: 0 12px;
-        /* Reduzi o padding lateral do container */
+        padding: 0;
+        /* Remove padding lateral no container */
+        max-width: 100%;
+      }
+
+      .header {
+        padding: 12px 0 8px;
+      }
+
+      .progress-wrap {
+        padding: 8px 15px 0;
       }
 
       .card {
-        margin: 10px 0 20px;
-        border-radius: 16px;
-        width: 100%;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-        /* Sombra mais leve para mobile */
+        margin: 0;
+        /* Sem margem para ocupar a largura toda */
+        border-radius: 0;
+        /* Bordas retas como um App */
+        box-shadow: none;
+        /* Sem sombra externa no mobile */
+        border: none;
       }
 
       .card-body {
-        padding: 24px 16px;
+        padding: 24px 20px 40px;
+        /* Padding generoso */
       }
 
       .hook-hero {
-        height: 220px;
+        height: 280px;
+        /* Herói maior no mobile */
       }
 
       .hook-mid {
-        height: 150px;
+        height: 180px;
       }
 
       .hook-result {
-        height: 200px;
+        height: 240px;
       }
 
       .hook-wrap .ov-text {
-        padding: 16px 18px;
+        padding: 20px;
       }
 
       .hook-wrap .ov-text h2 {
-        font-size: 18px;
+        font-size: 21px;
       }
 
       .question {
-        font-size: 18px;
-        line-height: 1.3;
+        font-size: 20px;
+        line-height: 1.35;
       }
 
       .sub {
-        font-size: 13px;
-        margin-bottom: 18px;
-        line-height: 1.5;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 24px;
       }
 
       .option {
-        padding: 12px 14px;
-        font-size: 14px;
-        border-radius: 12px;
-        gap: 10px;
+        padding: 16px;
+        font-size: 15px;
+        border-radius: 14px;
+        margin-bottom: 2px;
       }
 
       .opt-icon {
-        width: 24px;
-        height: 24px;
-        font-size: 11px;
+        width: 26px;
+        height: 26px;
+      }
+
+      .options-img {
+        gap: 8px;
       }
 
       .opt-img-wrap {
-        height: 80px;
-      }
-
-      .opt-img-ph {
-        font-size: 24px;
+        height: 100px;
       }
 
       .opt-img-lbl {
-        font-size: 12px;
-        min-height: 44px;
-        padding: 6px;
+        font-size: 13px;
+        min-height: 50px;
+      }
+
+      .emoji-cards {
+        gap: 10px;
       }
 
       .e-card {
-        padding: 14px 8px;
-        border-radius: 16px;
+        padding: 20px 10px;
       }
 
       .e-emoji {
-        font-size: 28px;
-        margin-bottom: 8px;
-      }
-
-      .e-txt {
-        font-size: 12px;
-      }
-
-      .insight-title {
-        font-size: 20px;
-      }
-
-      .insight-text {
-        font-size: 14px;
-        line-height: 1.6;
+        font-size: 32px;
       }
 
       .btn-next {
-        padding: 15px;
-        font-size: 15px;
+        padding: 18px;
+        font-size: 16px;
         border-radius: 12px;
-        margin-top: 12px;
+        margin-top: 10px;
+      }
+
+      .insight-title {
+        font-size: 22px;
+        margin-top: 10px;
+      }
+
+      .insight-text {
+        font-size: 15px;
+        line-height: 1.7;
       }
 
       .profile-box {
-        padding: 16px;
-      }
-
-      .profile-box h3 {
-        font-size: 16px;
-      }
-
-      .profile-item {
-        font-size: 13px;
-        margin-bottom: 10px;
+        padding: 20px;
+        margin-top: 10px;
       }
 
       .result-intro h2 {
-        font-size: 20px;
+        font-size: 22px;
       }
 
       .timer-wrap {
-        font-size: 12px;
-        padding: 8px;
-      }
-
-      .timer {
-        font-size: 16px;
+        padding: 12px;
+        font-size: 14px;
       }
     }
   </style>
