@@ -857,18 +857,18 @@
 
   <script>
     const IMG = {
-      hero: 'capa.png',
+      hero: 'capa.png?v=3',
       pain: 'https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&cs=tinysrgb&w=900',
       vision: 'https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=900',
       result: 'https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=900',
-      food_a: 'food_all.png',
-      food_b: 'food_trying.png',
-      food_c: 'food_restrict.png',
-      food_d: 'food_nothing.png',
-      age_18: 'img_18.jpg',
-      age_30: 'img_30.jpg',
-      age_40: 'img_40.jpg',
-      age_50: 'img_50.jpg'
+      food_a: 'f1.png?v=3',
+      food_b: 'f2.png?v=3',
+      food_c: 'f3.png?v=3',
+      food_d: 'f4.png?v=3',
+      age_18: 'img_18.jpg?v=3',
+      age_30: 'img_30.jpg?v=3',
+      age_40: 'img_40.jpg?v=3',
+      age_50: 'img_50.jpg?v=3'
     };
 
     const steps = [
@@ -1008,10 +1008,10 @@
         q: 'Como você descreveria sua relação com a comida hoje?',
         sub: 'Essa resposta explica por que o peso muitas vezes não se move.',
         opts: [
-          { v: 'all', t: 'Como de tudo, sem controle', e: '🍔', img: IMG.food_a },
-          { v: 'trying', t: 'Tento comer bem, mas escorrego', e: '🥗', img: IMG.food_b },
-          { v: 'restrict', t: 'Faço dietas restritivas e desisto', e: '🥩', img: IMG.food_c },
-          { v: 'nothing', t: 'Cortei tudo e não emagreço', e: '🥦', img: IMG.food_d }
+          { v: 'all', t: 'Como de tudo, sem controle', e: '🍔', img: 'f1.png?v=3' },
+          { v: 'trying', t: 'Tento comer bem, mas escorrego', e: '🥗', img: 'f2.png?v=3' },
+          { v: 'restrict', t: 'Faço dietas restritivas e desisto', e: '🥩', img: 'f3.png?v=3' },
+          { v: 'nothing', t: 'Cortei tudo e não emagreço', e: '🥦', img: 'f4.png?v=3' }
         ],
         insight: (v) => {
           if (v === 'restrict') return { t: '🍽️ O ciclo da restrição', b: 'Restrição → desequilíbrio → desistência. Esse ciclo se repete porque a dieta é grande demais para a vida. Precisamos de sustentabilidade.' };
