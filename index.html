@@ -70,6 +70,8 @@
       padding: 0 20px;
       position: relative;
       z-index: 1;
+      width: 100%;
+      /* Garante que ocupe a largura disponível */
     }
 
     .header {
@@ -672,81 +674,100 @@
 
     @media (max-width: 480px) {
       .header {
-        padding: 16px 12px 0;
+        padding: 12px 10px 0;
       }
 
       .brand {
-        font-size: 12px;
+        font-size: 11px;
       }
 
       .progress-wrap {
-        padding: 16px 16px 0;
+        padding: 12px 12px 0;
+      }
+
+      .container {
+        padding: 0 12px;
+        /* Reduzi o padding lateral do container */
       }
 
       .card {
-        margin: 12px 0 24px;
-        border-radius: 20px;
+        margin: 10px 0 20px;
+        border-radius: 16px;
+        width: 100%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        /* Sombra mais leve para mobile */
       }
 
       .card-body {
-        padding: 24px 18px;
+        padding: 24px 16px;
       }
 
       .hook-hero {
-        height: 240px;
-      }
-
-      .hook-mid {
-        height: 160px;
-      }
-
-      .hook-result {
         height: 220px;
       }
 
+      .hook-mid {
+        height: 150px;
+      }
+
+      .hook-result {
+        height: 200px;
+      }
+
       .hook-wrap .ov-text {
-        padding: 18px 20px;
+        padding: 16px 18px;
       }
 
       .hook-wrap .ov-text h2 {
-        font-size: 19px;
+        font-size: 18px;
       }
 
       .question {
-        font-size: 19px;
+        font-size: 18px;
+        line-height: 1.3;
       }
 
       .sub {
         font-size: 13px;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
+        line-height: 1.5;
       }
 
       .option {
         padding: 12px 14px;
         font-size: 14px;
         border-radius: 12px;
+        gap: 10px;
+      }
+
+      .opt-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
       }
 
       .opt-img-wrap {
-        height: 90px;
+        height: 80px;
       }
 
       .opt-img-ph {
-        font-size: 28px;
+        font-size: 24px;
       }
 
       .opt-img-lbl {
         font-size: 12px;
-        min-height: 48px;
-        padding: 8px;
+        min-height: 44px;
+        padding: 6px;
       }
 
       .e-card {
-        padding: 16px 10px;
+        padding: 14px 8px;
+        border-radius: 16px;
       }
 
       .e-emoji {
-        font-size: 30px;
+        font-size: 28px;
+        margin-bottom: 8px;
       }
 
       .e-txt {
@@ -754,7 +775,7 @@
       }
 
       .insight-title {
-        font-size: 22px;
+        font-size: 20px;
       }
 
       .insight-text {
@@ -763,13 +784,14 @@
       }
 
       .btn-next {
-        padding: 16px;
+        padding: 15px;
         font-size: 15px;
-        border-radius: 14px;
+        border-radius: 12px;
+        margin-top: 12px;
       }
 
       .profile-box {
-        padding: 18px;
+        padding: 16px;
       }
 
       .profile-box h3 {
@@ -778,19 +800,20 @@
 
       .profile-item {
         font-size: 13px;
+        margin-bottom: 10px;
       }
 
       .result-intro h2 {
-        font-size: 22px;
+        font-size: 20px;
       }
 
       .timer-wrap {
-        font-size: 13px;
-        padding: 10px;
+        font-size: 12px;
+        padding: 8px;
       }
 
       .timer {
-        font-size: 17px;
+        font-size: 16px;
       }
     }
   </style>
