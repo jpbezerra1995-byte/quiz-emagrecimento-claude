@@ -1207,7 +1207,7 @@
         card.innerHTML = emailHTML(s);
       } else {
         card.innerHTML = questionHTML(s);
-        if (s.imgOpts) s.opts.forEach(o => injectOptImg(o));
+        if (s.imgOpts) s.opts.forEach((o, idx) => injectOptImg(o, idx));
       }
     }
 
@@ -1219,13 +1219,16 @@
       wrap.prepend(img);
     }
 
-    function injectOptImg(o) {
-      const ph = $('ph_' + o.v);
-      const wrap = $('oi_' + o.v);
+    function injectOptImg(o, idx) {
+      const ph = $('ph_' + idx);
+      const wrap = $('oi_' + idx);
       if (!ph || !wrap) return;
       const img = new Image();
       img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.4s;position:absolute;inset:0;';
-      img.onload = () => { img.style.opacity = '1'; ph.style.opacity = '0'; };
+      img.onload = () => {
+        img.style.opacity = '1';
+        ph.style.opacity = '0';
+      };
       img.src = o.img;
       wrap.prepend(img);
     }
@@ -1269,9 +1272,9 @@
       let opts = '';
 
       if (s.imgOpts) {
-        opts = `<div class="options-img">${s.opts.map(o => `
+        opts = `<div class="options-img">${s.opts.map((o, idx) => `
           <div class="opt-img ${curAn === o.v ? 'selected' : ''}" onclick="selS('${k}','${o.v}')">
-            <div class="opt-img-wrap" id="oi_${o.v}"><div class="opt-img-ph" id="ph_${o.v}">${o.e}</div></div>
+            <div class="opt-img-wrap" id="oi_${idx}"><div class="opt-img-ph" id="ph_${idx}">${o.e}</div></div>
             <div class="opt-img-lbl">${o.t}</div>
           </div>`).join('')}</div>`;
       } else if (s.emojiCards) {
