@@ -860,18 +860,18 @@
 
   <script>
     const IMG = {
-      hero: 'capa.png?v=3',
-      pain: 'mt3_pain.jpg?v=4',
-      vision: 'https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=900',
-      result: 'result_hero.jpg?v=5',
-      food_a: 'f1.png?v=3',
-      food_b: 'f2.png?v=3',
-      food_c: 'f3.png?v=3',
-      food_d: 'f4.png?v=3',
-      age_18: 'img_18.jpg?v=3',
-      age_30: 'img_30.jpg?v=3',
-      age_40: 'img_40.jpg?v=3',
-      age_50: 'img_50.jpg?v=3'
+      hero: 'capa.png?v=10',
+      pain: 'mt3_pain.jpg?v=10',
+      vision: 'res.jpg?v=10',
+      result: 'res.jpg?v=10',
+      food_a: 'f1.png?v=10',
+      food_b: 'f2.png?v=10',
+      food_c: 'f3.png?v=10',
+      food_d: 'f4.png?v=10',
+      age_18: 'img_18.jpg?v=10',
+      age_30: 'img_30.jpg?v=10',
+      age_40: 'img_40.jpg?v=10',
+      age_50: 'img_50.jpg?v=10'
     };
 
     const steps = [
@@ -1373,7 +1373,14 @@
     function resultHTML() {
       const diff = Math.abs((ans.weight || 0) - (ans.goal || 0)) || 5;
       return `
-        <div class="hook-wrap hook-result"><div class="ov"></div><div class="ov-text"><span class="tag">✦ Diagnóstico Concluído</span><h2>Sua transformação começa agora.</h2></div></div>
+        <div class="hook-wrap hook-result">
+          <img src="${IMG.result}" class="loaded" style="opacity:1">
+          <div class="ov"></div>
+          <div class="ov-text">
+            <span class="tag">✦ Diagnóstico Concluído</span>
+            <h2>Sua transformação começa agora.</h2>
+          </div>
+        </div>
         <div class="result-intro">
           <div class="timer-wrap">⚡ Oferta expira em: <span class="timer" id="timer">14:59</span></div>
           <h2>Temos o caminho exato para você chegar aos ${ans.goal || 'sua meta'}kg</h2>
