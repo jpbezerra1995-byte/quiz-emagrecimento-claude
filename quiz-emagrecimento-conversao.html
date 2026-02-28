@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plano de Emagrecimento Personalizado</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* Marca — rose mantido para identidade */
+      --rose: #C8445A;
+      --rose-light: #F2A0AE;
+      --rose-dark: #8C2235;
+
+      /* Conversão — botões de ação */
+      --cta: #F46A1A;
+      --cta-dark: #C4530E;
+      --cta-glow: rgba(244, 106, 26, 0.35);
+
+      /* Validação — progresso e seleção */
+      --check: #2ECC71;
+      --check-bg: rgba(46, 204, 113, 0.12);
+
+      /* Insight — credibilidade */
+      --insight-bg: #EEF4FB;
+      --insight-border: #4A90D9;
+      --insight-title: #1A5FAD;
+      --insight-text: #2C3E6B;
+
+      --cream: #FDF6F0;
+      --brown: #5C3D2E;
+      --text: #2A1A14;
+      --muted: #9A7B6E;
+      --white: #FFFFFF;
+      --success: #2ECC71;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(200, 68, 90, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(200, 68, 90, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      padding: 28px 20px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: var(--rose);
+      text-transform: uppercase;
+    }
+
+    .progress-wrap {
+      padding: 20px 20px 0;
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: rgba(200, 68, 90, 0.15);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--rose-light), var(--rose));
+      border-radius: 99px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      overflow: hidden;
+      margin: 20px 0 32px;
+      box-shadow: 0 4px 40px rgba(92, 61, 46, 0.09), 0 1px 4px rgba(92, 61, 46, 0.04);
+      animation: slideUp 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card-body {
+      padding: 30px 30px 34px;
+    }
+
+    /* ── HOOK IMAGE ── */
+    .hook-wrap {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Fallback gradient sempre presente como background */
+    .hook-hero {
+      height: 340px;
+      background: linear-gradient(135deg, #3d0a14 0%, #8C2235 50%, #C8445A 100%);
+    }
+
+    .hook-mid {
+      height: 200px;
+      background: linear-gradient(135deg, #1a0a0e 0%, #5C1A28 60%, #8C2235 100%);
+    }
+
+    .hook-result {
+      height: 270px;
+      background: linear-gradient(135deg, #2d0710 0%, #8C2235 55%, #C8445A 100%);
+    }
+
+    .hook-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    .hook-wrap img.loaded {
+      opacity: 1;
+    }
+
+    .hook-wrap .ov {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(10, 2, 5, 0.78) 100%);
+      z-index: 1;
+    }
+
+    .hook-wrap .ov-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 22px 26px;
+      color: white;
+      z-index: 2;
+    }
+
+    .hook-wrap .ov-text .tag {
+      display: inline-block;
+      background: rgba(200, 68, 90, 0.92);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 99px;
+      margin-bottom: 9px;
+    }
+
+    .hook-wrap .ov-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      line-height: 1.3;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+    }
+
+    .hook-wrap .ov-text p {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── DEDICATED INSIGHT SCREEN ── */
+    .insight-card {
+      text-align: center;
+      padding: 40px 30px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .analysis-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--insight-bg);
+      color: var(--insight-title);
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      border: 1px solid var(--insight-border);
+    }
+
+    .insight-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .insight-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--insight-text);
+      margin-bottom: 30px;
+    }
+
+    .insight-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .scientific-line {
+      width: 40px;
+      height: 2px;
+      background: var(--insight-border);
+      margin: 20px auto;
+      opacity: 0.4;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 9px;
+    }
+
+    .question {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 7px;
+    }
+
+    .question em {
+      color: var(--rose);
+      font-style: italic;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+
+    /* ── OPTIONS padrão ── */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 13px 15px;
+      border: 1.5px solid rgba(200, 68, 90, 0.15);
+      border-radius: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--cream);
+      font-size: 14.5px;
+      color: var(--text);
+      text-align: left;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      width: 100%;
+    }
+
+    .option:hover {
+      border-color: var(--rose-light);
+      transform: translateX(4px);
+    }
+
+    .option.selected {
+      border-color: var(--check);
+      background: linear-gradient(135deg, #F0FDF6, #E6F9EE);
+      color: #1A5C33;
+      font-weight: 500;
+    }
+
+    .option.selected .opt-icon {
+      background: var(--check);
+      color: white;
+    }
+
+    .opt-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(200, 68, 90, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      color: var(--rose);
+      font-weight: 700;
+    }
+
+    /* ── OPTIONS imagem (Q7) ── */
+    .options-img {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .opt-img {
+      border: 2px solid rgba(200, 68, 90, 0.15);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.22s;
+      position: relative;
+      background: linear-gradient(135deg, #f5e6d8, #f0d8cc);
+    }
+
+    .opt-img:hover {
+      border-color: var(--rose-light);
+      transform: scale(1.02);
+    }
+
+    .opt-img.selected {
+      border-color: var(--check);
+    }
+
+    .opt-img.selected .opt-img-lbl {
+      background: var(--check);
+      color: white;
+    }
+
+    .opt-img-img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .opt-img-img.loaded {
+      opacity: 1;
+    }
+
+    /* placeholder visual para imagem */
+    .opt-img-ph {
+      width: 100%;
+      height: 100px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .opt-img-check {
+      display: none;
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 20px;
+      height: 20px;
+      background: var(--check);
+      border-radius: 50%;
+      color: white;
+      font-size: 10px;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .opt-img.selected .opt-img-check {
+      display: flex;
+    }
+
+    .opt-img-lbl {
+      padding: 9px 11px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text);
+      background: white;
+      transition: all 0.2s;
+      line-height: 1.3;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── VISION CARDS (Q11) ── */
+    .vision-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .v-card {
+      border: 2px solid rgba(200, 68, 90, 0.15);
+      border-radius: 14px;
+      padding: 16px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--cream);
+      text-align: center;
+    }
+
+    .v-card:hover {
+      border-color: var(--rose-light);
+      transform: scale(1.02);
+    }
+
+    .v-card.selected {
+      border-color: var(--check);
+      background: linear-gradient(135deg, #F0FDF6, #E6F9EE);
+    }
+
+    .v-card .v-emoji {
+      font-size: 30px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .v-card .v-txt {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .v-card.selected .v-txt {
+      color: #1A5C33;
+    }
+
+    .multi-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+
+    /* ── INPUT ── */
+    .input-group {
+      margin-bottom: 13px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--brown);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1.5px solid rgba(200, 68, 90, 0.2);
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--rose);
+    }
+
+    /* ── BUTTONS ── */
+    .btn-next {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--cta), var(--cta-dark));
+      color: white;
+      border: none;
+      border-radius: 13px;
+      font-size: 15.5px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      margin-top: 22px;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+      box-shadow: 0 4px 22px var(--cta-glow);
+    }
+
+    .btn-next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--cta-glow);
+    }
+
+    .btn-next:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-back {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid rgba(200, 68, 90, 0.2);
+      border-radius: 13px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 12px;
+      width: 100%;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-back:hover {
+      background: rgba(200, 68, 90, 0.05);
+      color: var(--rose);
+      border-color: var(--rose-light);
+    }
+
+    /* ── RESULT ── */
+    .result-header {
+      text-align: center;
+      padding: 26px 26px 0;
+    }
+
+    .result-header .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 13px;
+    }
+
+    .result-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 25px;
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 9px;
+    }
+
+    .result-header p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .result-body {
+      padding: 22px 26px 30px;
+    }
+
+    .profile-box {
+      background: linear-gradient(135deg, #FFF0F3, #FDE8ED);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      border-left: 4px solid var(--rose);
+    }
+
+    .profile-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: var(--rose-dark);
+      margin-bottom: 11px;
+    }
+
+    .profile-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 13.5px;
+      color: var(--brown);
+      line-height: 1.5;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--rose);
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(200, 68, 90, 0.08);
+      font-size: 13.5px;
+      color: var(--text);
+    }
+
+    .feature:last-child {
+      border-bottom: none;
+    }
+
+    .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--check-bg);
+      color: var(--check);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .urgency {
+      background: linear-gradient(135deg, var(--rose-dark), #5C1A28);
+      color: white;
+      border-radius: 14px;
+      padding: 17px 20px;
+      text-align: center;
+      margin: 16px 0;
+    }
+
+    .urgency p {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .urgency strong {
+      font-size: 17px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .btn-cta {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--cta), var(--cta-dark));
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 6px 28px var(--cta-glow);
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px var(--cta-glow);
+    }
+
+    .guarantee {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    /* ── LOADING ── */
+    .loading-screen {
+      text-align: center;
+      padding: 46px 20px;
+    }
+
+    .loader-ring {
+      width: 52px;
+      height: 52px;
+      border: 3px solid rgba(200, 68, 90, 0.15);
+      border-top-color: var(--rose);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-screen h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .loading-screen p {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .loading-steps {
+      margin-top: 22px;
+      text-align: left;
+      display: inline-block;
+    }
+
+    .load-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 5px 0;
+      transition: color 0.3s;
+    }
+
+    .load-step.active {
+      color: var(--cta);
+      font-weight: 500;
+    }
+
+    .load-step.done {
+      color: var(--check);
+    }
+
+    .load-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── INTRO ── */
+    .intro-copy {
+      padding: 18px 26px 26px;
+    }
+
+    .intro-copy h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      line-height: 1.28;
+      color: var(--text);
+      margin-bottom: 11px;
+    }
+
+    .intro-copy h1 em {
+      color: var(--rose);
+      font-style: italic;
+    }
+
+    .intro-copy p {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .social-proof {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--brown);
+      margin-bottom: 20px;
+    }
+
+    .avatars {
+      display: flex;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid white;
+      margin-left: -8px;
+      background: linear-gradient(135deg, var(--rose-light), var(--rose));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: white;
+      font-weight: 600;
+    }
+
+    .avatar:first-child {
+      margin-left: 0;
+    }
+
+    .stars {
+      color: #F5A623;
+      font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .card-body {
+        padding: 22px 18px 26px;
+      }
+
+      .question {
+        font-size: 18px;
+      }
+
+      .intro-copy h1 {
+        font-size: 21px;
+      }
+
+      .hook-hero {
+        height: 260px;
+      }
+
+      .hook-mid {
+        height: 170px;
+      }
+
+      .result-header {
+        padding: 20px 18px 0;
+      }
+
+      .result-body {
+        padding: 18px 18px 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="brand">✦ Radiant Guide</div>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-info">
+      <span id="progressLabel">Pergunta 1 de 12</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card" id="mainCard"></div>
+  </div>
+
+  <script>
+    // Imagens via Pexels CDN (sem restrição de hotlink)
+    const IMG = {
+      hero: 'https://images.pexels.com/photos/3757954/pexels-photo-3757954.jpeg?auto=compress&cs=tinysrgb&w=900',
+      pain: 'https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&cs=tinysrgb&w=900',
+      vision: 'https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=900',
+      result: 'https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=900',
+      food_a: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
+      food_b: 'https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=400',
+      food_c: 'https://images.pexels.com/photos/5949903/pexels-photo-5949903.jpeg?auto=compress&cs=tinysrgb&w=400',
+      food_d: 'https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=400',
+    };
+
+    // Emojis fallback para opções de imagem caso não carreguem
+    const FOOD_EMOJI = ['🍔', '🥗', '🥩', '🥦'];
+
+    function lazyImg(src, cls, alt) {
+      const img = new Image();
+      img.onload = () => img.classList.add('loaded');
+      img.onerror = () => img.style.display = 'none';
+      img.src = src;
+      img.className = cls;
+      img.alt = alt || '';
+      return img;
+    }
+
+    const steps = [
+      { type: 'intro' },
+
+      {
+        type: 'q', id: 'age', icon: '🌸', step: 1, label: 'Sobre você',
+        q: 'Qual é a sua <em>faixa de idade?</em>',
+        sub: 'Isso define muito sobre como o seu corpo funciona hoje.',
+        opts: [{ v: '18-29', t: '18 a 29 anos' }, { v: '30-39', t: '30 a 39 anos' }, { v: '40-49', t: '40 a 49 anos' }, { v: '50+', t: '50 anos ou mais' }],
+        insight: v => ({
+          '18-29': { t: 'Dos 18 aos 29 anos', b: 'O metabolismo ainda é acelerado, mas hábitos ruins formados agora se consolidam com o tempo. Intervir cedo garante resultados mais rápidos e duradouros.' },
+          '30-39': { t: 'Dos 30 aos 39 anos', b: 'Nessa fase o metabolismo começa a desacelerar e o cortisol aumenta com o estresse do dia a dia. Estratégias que funcionavam antes param de funcionar — não é fraqueza, é biologia. E tem solução.' },
+          '40-49': { t: 'Dos 40 aos 49 anos', b: 'A mudança hormonal desta fase afeta diretamente onde o corpo acumula gordura. Um plano genérico não funciona aqui — você precisa de uma abordagem adaptada ao seu momento.' },
+          '50+': { t: 'A partir dos 50 anos', b: 'O corpo muda, mas não para de responder. Com a estratégia certa, mulheres nessa fase alcançam resultados que não conseguiram em nenhum outro período da vida.' },
+        }[v])
+      },
+
+      {
+        type: 'q', id: 'previous', icon: '💭', step: 2, label: 'Seu histórico',
+        q: 'Você já tentou emagrecer antes e <em>não conseguiu manter?</em>',
+        sub: 'Seja honesta. Essa resposta é a chave para entender o que precisa mudar.',
+        opts: [{ v: 'a', t: 'Sim, já tentei várias vezes e não consegui manter' }, { v: 'b', t: 'Emagreci, mas voltei ao peso depois' }, { v: 'c', t: 'Nunca tentei de forma organizada' }, { v: 'd', t: 'Estou tentando pela primeira vez' }],
+        insight: v => (v === 'c' || v === 'd')
+          ? { t: 'Boa notícia', b: 'Você não tem padrões negativos para quebrar. Começar com o método certo desde o início é a maior vantagem possível.' }
+          : { t: 'Você não está sozinha', b: '9 em cada 10 mulheres que tentam emagrecer sem um método adaptado acabam no efeito sanfona — não por falta de esforço, mas porque a abordagem estava errada para o seu corpo.' }
+      },
+
+      {
+        type: 'q', id: 'metabolism', icon: '⚖️', step: 3, label: 'Seu metabolismo',
+        q: 'Como o seu <em>peso costuma se comportar?</em>',
+        sub: 'Isso revela o que está acontecendo dentro do seu corpo.',
+        opts: [{ v: 'a', t: 'Tenho dificuldade de perder peso, mesmo me esforçando' }, { v: 'b', t: 'Perco peso com facilidade, mas recupero rápido' }, { v: 'c', t: 'Ganho peso com facilidade e demoro muito para perder' }, { v: 'd', t: 'Meu peso fica estável, mas não consigo secar a gordura' }],
+        insight: v => ({
+          a: { t: 'Isso tem nome', b: 'Quando o corpo resiste à perda de peso mesmo com esforço, geralmente há resistência à insulina por trás. Isso não se resolve com menos comida — se resolve com a combinação certa de alimentos e estímulos.' },
+          b: { t: 'O temido efeito sanfona', b: 'Perder e recuperar rápido indica que o método anterior destruiu massa muscular junto com gordura. Sem músculo, o metabolismo fica lento e o peso volta com mais facilidade.' },
+          c: { t: 'Metabolismo adaptativo', b: 'Ganhar peso com facilidade e perder devagar é sinal de que seu metabolismo entrou em modo de proteção — geralmente por dietas restritivas no passado.' },
+          d: { t: 'Gordura localizada', b: 'Peso estável com gordura que não sai é um dos padrões mais comuns em mulheres acima dos 30 anos. O culpado quase sempre é hormonal — e tem abordagem específica.' },
+        }[v])
+      },
+
+      {
+        type: 'q', id: 'obstacles', icon: '🚧', step: 4, label: 'Seus obstáculos', multi: true,
+        q: 'O que mais te <em>impede de emagrecer</em> hoje?',
+        sub: 'Escolha todos que se aplicam à sua realidade.',
+        opts: [{ v: 'a', t: 'Não sei exatamente o que comer' }, { v: 'b', t: 'Falta de tempo na rotina' }, { v: 'c', t: 'Cansaço e falta de energia' }, { v: 'd', t: 'Ansiedade e vontade de comer sem fome real' }, { v: 'e', t: 'Já tentei de tudo e nada funcionou' }],
+        insight: () => ({ t: 'Esses obstáculos são dados, não desculpas', b: 'Um método que ignora sua rotina, seu nível de energia e sua relação com a comida vai falhar — não importa quão perfeito ele seja no papel.' })
+      },
+
+      {
+        type: 'q', id: 'routine', icon: '🗓️', step: 5, label: 'Sua rotina',
+        q: 'Como é a sua <em>semana normalmente?</em>',
+        sub: 'Sem filtro. Queremos entender sua vida real, não a ideal.',
+        opts: [{ v: 'a', t: 'Trabalho fora o dia todo' }, { v: 'b', t: 'Trabalho em casa (home office)' }, { v: 'c', t: 'Cuido da casa e dos filhos em tempo integral' }, { v: 'd', t: 'Trabalho e ainda cuido da casa e dos filhos' }]
+      },
+
+      {
+        type: 'q', id: 'time', icon: '⏱️', step: 6, label: 'Seu tempo',
+        q: 'Quanto tempo você consegue <em>dedicar para você</em> por dia?',
+        sub: 'Seja realista. Vamos montar o plano dentro do tempo que você tem.',
+        opts: [{ v: 'a', t: 'Até 15 minutos' }, { v: 'b', t: '20 a 30 minutos' }, { v: 'c', t: '40 minutos ou mais' }, { v: 'd', t: 'Varia muito, depende do dia' }],
+        insight: () => ({ t: 'Você tem mais do que precisa', b: 'Estudos mostram que 20 minutos de atividade bem direcionada por dia são suficientes para gerar perda de gordura consistente. O problema nunca foi o tempo — foi não saber o que fazer dentro desse tempo.' })
+      },
+
+      // Q7 — OPÇÕES COM IMAGEM
+      {
+        type: 'q', id: 'food', icon: '🍽️', step: 7, label: 'Sua alimentação', imgOpts: true,
+        q: 'Como você descreveria <em>sua relação com a comida</em> hoje?',
+        sub: 'Essa resposta revela muito sobre por que o peso não sai.',
+        opts: [
+          { v: 'a', t: 'Como de tudo, sem controle', e: '🍔', img: IMG.food_a },
+          { v: 'b', t: 'Tento comer bem, mas escorrego', e: '🥗', img: IMG.food_b },
+          { v: 'c', t: 'Faço dietas restritivas e desisto', e: '🥩', img: IMG.food_c },
+          { v: 'd', t: 'Cortei tudo e ainda não emagreço', e: '🥦', img: IMG.food_d },
+        ],
+        insight: v => v === 'd'
+          ? { t: 'Isso explica tudo', b: 'Cortar alimentos demais pode ser o motivo pelo qual você não emagrece. Quando o corpo entende que está em restrição severa, ele desacelera o metabolismo para se proteger.' }
+          : v === 'c'
+            ? { t: 'O ciclo da dieta restritiva', b: 'Dietas muito rígidas criam um ciclo previsível: restrição, resultado rápido, desistência, recuperação de peso. A saída é um plano que você consegue manter sem sofrimento.' }
+            : { t: 'A alimentação é 70% do resultado', b: 'Não importa quanto você se exercita — se a alimentação não estiver alinhada com o seu metabolismo, o resultado vai travar.' }
+      },
+
+      {
+        type: 'q', id: 'restrictions', icon: '⚠️', step: 8, label: 'Restrições', multi: true,
+        q: 'Você tem alguma <em>restrição ou intolerância alimentar?</em>',
+        sub: 'Escolha todas que se aplicam.',
+        opts: [{ v: 'a', t: 'Intolerância à lactose' }, { v: 'b', t: 'Intolerância ao glúten' }, { v: 'c', t: 'Alergia a ovos' }, { v: 'd', t: 'Alergia a frutos do mar' }, { v: 'e', t: 'Não consigo seguir cardápios elaborados' }, { v: 'f', t: 'Nenhuma das anteriores' }]
+      },
+
+      // Q9 — HOOK VISUAL DE DOR
+      {
+        type: 'q', id: 'time_bad', icon: '💔', step: 9, label: 'Momento de virada',
+        hookImg: IMG.pain, hookTag: 'A pergunta que muda tudo', hookTitle: 'Seja honesta com você mesma agora.',
+        q: 'Há quanto tempo você <em>não se sente bem com o seu corpo?</em>',
+        sub: 'Essa é a pergunta mais importante do quiz. Responda com honestidade.',
+        opts: [{ v: 'a', t: 'Há menos de 1 ano' }, { v: 'b', t: 'Entre 1 e 3 anos' }, { v: 'c', t: 'Mais de 3 anos' }, { v: 'd', t: 'Nunca me senti realmente bem como estou' }],
+        insight: v => ({
+          a: { t: 'Você chegou cedo', b: 'Quanto mais cedo se age, mais fácil e rápido é reverter o quadro. O seu corpo ainda tem muito a responder a um estímulo correto.' },
+          b: { t: 'Dois anos é tempo demais', b: 'Dois anos olhando pro espelho e não se reconhecendo pesa — não só no corpo, mas na autoestima, no humor, na energia. Você merece se sentir bem dentro da sua própria pele.' },
+          c: { t: 'Três anos ou mais', b: 'Quando a insatisfação dura tanto tempo, a mente começa a duvidar que a mudança é possível. Mas o corpo tem capacidade enorme de transformação. Mulheres com esse histórico são as que mais se surpreendem.' },
+          d: { t: 'Isso vai mudar', b: 'Nunca ter se sentido bem com o próprio corpo não é uma sentença — é um ponto de partida. E muitas vezes o mais poderoso de todos.' },
+        }[v])
+      },
+
+      {
+        type: 'q', id: 'targets', icon: '🎯', step: 10, label: 'Seu foco', multi: true,
+        q: 'Quais regiões do corpo <em>mais te incomodam?</em>',
+        sub: 'Escolha todas que se aplicam.',
+        opts: [{ v: 'a', t: 'Barriga e flancos' }, { v: 'b', t: 'Braços' }, { v: 'c', t: 'Coxas e glúteos' }, { v: 'd', t: 'Corpo inteiro' }, { v: 'e', t: 'Gordura localizada (sem sobrepeso geral)' }]
+      },
+
+      // Q11 — HOOK VISUAL DE VISÃO
+      {
+        type: 'q', id: 'vision', icon: '🌟', step: 11, label: 'Seu comprometimento',
+        hookImg: IMG.vision, hookTag: 'Visualize agora', hookTitle: 'Feche os olhos por um segundo. Imagine.',
+        q: 'Se em 30 dias você olhasse no espelho e visse uma diferença real — <em>como você se sentiria?</em>',
+        sub: 'Imagine de verdade. Esse sentimento é o seu maior combustível.',
+        vCards: true,
+        opts: [
+          { v: 'a', t: 'Aliviada. Finalmente.', e: '😮‍💨' },
+          { v: 'b', t: 'Orgulhosa de mim mesma.', e: '💪' },
+          { v: 'c', t: 'Mais confiante e cheia de energia.', e: '✨' },
+          { v: 'd', t: 'Feliz de uma forma que faz tempo não sinto.', e: '🥹' },
+        ],
+        insight: () => ({ t: 'Esse sentimento já é seu', b: 'Quem visualiza o objetivo antes de começar tem até 2x mais chances de manter o comprometimento ao longo do processo. Você está mais do que pronta.' })
+      },
+
+      {
+        type: 'bio', step: 12, icon: '📊', label: 'Quase lá',
+        q: 'Agora vamos <em>calcular seu plano.</em>',
+        sub: 'Precisamos de algumas medidas para personalizar cada detalhe.'
+      },
+
+      { type: 'loading' },
+      { type: 'result' },
+    ];
+
+    let cur = 0, ans = {}, multi = {}, showingInsight = false;
+    const $ = id => document.getElementById(id);
+
+    function qSteps() { return steps.filter(s => s.type === 'q' || s.type === 'bio'); }
+
+    function updateBar(qi, total) {
+      const pct = Math.round((qi / total) * 100);
+      $('progressFill').style.width = pct + '%';
+      $('progressLabel').textContent = `Pergunta ${qi} de ${total}`;
+      $('progressPct').textContent = pct + '%';
+    }
+
+    function render() {
+      const s = steps[cur], card = $('mainCard'), pw = $('progressWrap');
+      if (s.type === 'intro') { pw.style.display = 'none'; card.innerHTML = introHTML(); injectHookImg(card.querySelector('.hook-wrap'), IMG.hero); return; }
+      if (s.type === 'loading') { pw.style.display = 'none'; card.innerHTML = loadHTML(); startLoad(); return; }
+      if (s.type === 'result') { pw.style.display = 'none'; card.innerHTML = resultHTML(); injectHookImg(card.querySelector('.hook-wrap'), IMG.result); return; }
+
+      if (showingInsight) {
+        pw.style.display = 'none';
+        card.innerHTML = insightHTML(s);
+        return;
+      }
+
+      const qs = qSteps(); pw.style.display = ''; updateBar(qs.indexOf(s) + 1, qs.length);
+      if (s.type === 'bio') { card.innerHTML = bioHTML(s); return; }
+      card.innerHTML = questionHTML(s);
+      if (s.hookImg) injectHookImg(card.querySelector('.hook-wrap'), s.hookImg);
+      if (s.imgOpts) injectOptImgs(s);
+    }
+
+    // Injeta imagem com fade-in e fallback gracioso
+    function injectHookImg(wrap, src) {
+      if (!wrap) return;
+      const img = document.createElement('img');
+      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;opacity:0;transition:opacity 0.5s ease;';
+      img.onload = () => { img.style.opacity = '1'; };
+      img.onerror = () => { img.remove(); }; // fallback: mostra o gradiente CSS
+      img.src = src;
+      wrap.insertBefore(img, wrap.querySelector('.ov'));
+    }
+
+    function injectOptImgs(s) {
+      s.opts.forEach(o => {
+        const ph = document.getElementById('ph_' + o.v);
+        const wrap = document.getElementById('oi_' + o.v);
+        if (!ph || !wrap) return;
+        const img = document.createElement('img');
+        img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.4s ease;';
+        img.onload = () => { img.style.opacity = '1'; ph.style.opacity = '0'; };
+        img.onerror = () => { img.remove(); };
+        img.src = o.img;
+        wrap.insertBefore(img, ph);
+      });
+    }
+
+    /* ── INTRO ── */
+    function introHTML() {
+      return `
+    <div class="hook-wrap hook-hero">
+      <div class="ov"></div>
+      <div class="ov-text">
+        <span class="tag">✦ Diagnóstico gratuito</span>
+        <h2>Descubra por que você ainda não conseguiu emagrecer de vez</h2>
+        <p>12 perguntas. Resultado 100% personalizado. Sem achismos.</p>
+      </div>
+    </div>
+    <div class="intro-copy">
+      <div class="social-proof">
+        <div class="avatars">
+          <div class="avatar">A</div><div class="avatar">C</div>
+          <div class="avatar">M</div><div class="avatar">R</div>
+        </div>
+        <div>
+          <div class="stars">★★★★★</div>
+          <span style="color:var(--muted);font-size:13px">+840 mulheres transformadas</span>
+        </div>
+      </div>
+      <p>Responda com honestidade e receba um diagnóstico real do que está travando o seu progresso — com um plano montado para o <strong>seu corpo</strong>, sua rotina e seus objetivos.</p>
+      <button class="btn-next" onclick="next()">Descobrir meu perfil →</button>
+      <p style="font-size:12px;color:var(--muted);margin-top:11px;text-align:center">⏱ Leva menos de 3 minutos</p>
+    </div>`;
+    }
+
+    /* ── QUESTION ── */
+    function questionHTML(s) {
+      const isM = s.multi, key = s.id, cm = multi[key] || [], cs = ans[key];
+      const hookH = s.hookImg ? `<div class="hook-wrap hook-mid"><div class="ov"></div><div class="ov-text"><span class="tag">${s.hookTag}</span><h2 style="font-size:17px">${s.hookTitle}</h2></div></div>` : '';
+
+      let optsH = '';
+      if (s.imgOpts) {
+        optsH = `<div class="options-img">` + s.opts.map(o => `
+      <div class="opt-img ${cs === o.v ? 'selected' : ''}" id="oi_${o.v}" onclick="selSingle('${key}','${o.v}',this)" style="position:relative;min-height:138px;">
+        <div class="opt-img-ph" id="ph_${o.v}" style="position:absolute;inset:0;height:100px;">${o.e}</div>
+        <div class="opt-img-check">✓</div>
+        <div class="opt-img-lbl" style="position:relative;z-index:2;margin-top:100px;">${o.t}</div>
+      </div>`).join('') + `</div>`;
+      } else if (s.vCards) {
+        optsH = `<div class="vision-cards">` + s.opts.map(o => `
+      <div class="v-card ${cs === o.v ? 'selected' : ''}" onclick="selSingle('${key}','${o.v}',this)">
+        <span class="v-emoji">${o.e}</span><div class="v-txt">${o.t}</div>
+      </div>`).join('') + `</div>`;
+      } else {
+        const L = ['A', 'B', 'C', 'D', 'E', 'F'];
+        optsH = `<div class="options">` + s.opts.map((o, i) => {
+          const sel = isM ? cm.includes(o.v) : cs === o.v;
+          return `<button class="option ${sel ? 'selected' : ''}" onclick="${isM ? `toggleM('${key}','${o.v}',this)` : `selSingle('${key}','${o.v}',this)`}">
+        <span class="opt-icon">${L[i]}</span>${o.t}</button>`;
+        }).join('') + `</div>`;
+      }
+
+      const dis = (isM ? cm.length === 0 : !cs) ? 'disabled' : '';
+      const backBtn = cur > 0 ? `<button class="btn-back" onclick="prev()">← Voltar</button>` : '';
+      return `${hookH}<div class="card-body"><div class="step-label">${s.icon} ${s.label}</div><div class="question">${s.q}</div><p class="sub">${s.sub}</p>${isM ? '<p class="multi-note">Você pode escolher mais de uma opção</p>' : ''}${optsH}<button class="btn-next" id="btnNext" onclick="next()" ${dis}>Continuar →</button>${backBtn}</div>`;
+    }
+
+    /* ── BIO ── */
+    function bioHTML(s) {
+      return `<div class="card-body">
+    <div class="step-label">${s.icon} ${s.label}</div>
+    <div class="question">${s.q}</div><p class="sub">${s.sub}</p>
+    <div class="input-group"><label>Sua altura (cm)</label><input type="number" id="ih" placeholder="Ex: 165" min="90" max="243" oninput="chkBio()"></div>
+    <div class="input-group"><label>Seu peso atual (kg)</label><input type="number" id="iw" placeholder="Ex: 72" min="25" max="300" oninput="chkBio()"></div>
+    <div class="input-group"><label>Seu peso ideal (kg)</label><input type="number" id="ig" placeholder="Ex: 60" min="25" max="300" oninput="chkBio()"></div>
+    <button class="btn-next" id="btnNext" onclick="next()" disabled>Gerar meu plano →</button>
+    <button class="btn-back" onclick="prev()">← Voltar</button>
+  </div>`;
+    }
+    function chkBio() {
+      const h = $('ih')?.value, w = $('iw')?.value, g = $('ig')?.value;
+      if (h && w && g) { ans.height = h; ans.weight = w; ans.goal = g; }
+      const b = $('btnNext'); if (b) b.disabled = !(h && w && g);
+    }
+
+    /* ── LOADING ── */
+    function loadHTML() {
+      return `<div class="card-body loading-screen">
+    <div class="loader-ring"></div>
+    <h3>Montando seu diagnóstico...</h3><p>Estamos analisando suas respostas</p>
+    <div class="loading-steps">
+      <div class="load-step" id="ls1"><div class="load-dot"></div>Analisando seu perfil metabólico</div>
+      <div class="load-step" id="ls2"><div class="load-dot"></div>Mapeando seus obstáculos reais</div>
+      <div class="load-step" id="ls3"><div class="load-dot"></div>Calculando sua meta de peso</div>
+      <div class="load-step" id="ls4"><div class="load-dot"></div>Personalizando seu plano alimentar</div>
+      <div class="load-step" id="ls5"><div class="load-dot"></div>Finalizando seu diagnóstico</div>
+    </div>
+  </div>`;
+    }
+    function startLoad() {
+      const ids = ['ls1', 'ls2', 'ls3', 'ls4', 'ls5']; let i = 0;
+      const iv = setInterval(() => {
+        if (i > 0) { $(ids[i - 1]).classList.remove('active'); $(ids[i - 1]).classList.add('done'); }
+        if (i < ids.length) { $(ids[i]).classList.add('active'); i++; }
+        else { clearInterval(iv); setTimeout(() => { cur++; render(); }, 700); }
+      }, 750);
+    }
+
+    /* ── INSIGHT DEDICADO ── */
+    function insightHTML(s) {
+      const isM = s.multi, key = s.id;
+      const val = isM ? multi[key] : ans[key];
+      const ins = s.insight(val);
+
+      return `
+    <div class="card-body insight-card">
+      <span class="insight-icon">🔬</span>
+      <div class="analysis-badge">
+        <span>Análise Personalizada</span>
+      </div>
+      <h2 class="insight-title">${ins.t}</h2>
+      <div class="scientific-line"></div>
+      <p class="insight-text">${ins.b}</p>
+      
+      <button class="btn-next" onclick="confirmInsight()">Confirmar e continuar →</button>
+      <button class="btn-back" onclick="prev()">← Alterar resposta</button>
+      
+      <p style="font-size:11px; color:var(--muted); margin-top:20px; font-style:italic;">
+        Baseado no seu perfil biológico e padrões de resposta.
+      </p>
+    </div>
+  `;
+    }
+
+    function confirmInsight() {
+      showingInsight = false;
+      next();
+    }
+
+    /* ── RESULT ── */
+    function resultHTML() {
+      const w = parseInt(ans.weight || 0), g = parseInt(ans.goal || 0);
+      const diff = w && g ? Math.abs(w - g) : '?', age = ans.age || '30-39';
+      return `
+    <div class="hook-wrap hook-result">
+      <div class="ov"></div>
+      <div class="ov-text">
+        <span class="tag">✦ Diagnóstico concluído</span>
+        <h2>Você tem alto potencial de transformação</h2>
+        <p>Identificamos exatamente o que tem travado o seu progresso.</p>
+      </div>
+    </div>
+    <div class="result-header">
+      <div class="badge">✦ Seu plano está pronto</div>
+      <h2>Sabemos o que você precisa<br>para finalmente emagrecer</h2>
+      <p>Com base nas suas respostas, montamos um perfil detalhado e um plano adaptado à sua realidade.</p>
+    </div>
+    <div class="result-body">
+      <div class="profile-box">
+        <h3>📋 Seu perfil</h3>
+        <div class="profile-item"><div class="dot"></div>Metabolismo que precisa de estratégia, não de restrição severa</div>
+        <div class="profile-item"><div class="dot"></div>Rotina intensa que exige um método que caiba na sua vida real</div>
+        <div class="profile-item"><div class="dot"></div>Histórico que revela exatamente o que <em>não</em> funciona para você</div>
+        <div class="profile-item"><div class="dot"></div>Meta de eliminar aproximadamente <strong>${diff} kg</strong> de forma sustentável</div>
+      </div>
+      <p style="font-size:13.5px;color:var(--brown);margin-bottom:13px;font-weight:500">O seu plano precisa ser:</p>
+      <div style="margin-bottom:20px">
+        <div class="feature"><div class="check">✓</div>Adaptado ao seu metabolismo e faixa etária (${age} anos)</div>
+        <div class="feature"><div class="check">✓</div>Possível com a rotina que você tem — não a que gostaria de ter</div>
+        <div class="feature"><div class="check">✓</div>Com alimentação sem sofrimento nem restrição extrema</div>
+        <div class="feature"><div class="check">✓</div>Com estratégia de queima de gordura, não corte calórico agressivo</div>
+        <div class="feature"><div class="check">✓</div>Com resultado visível em 30 dias — e sustentável depois disso</div>
+      </div>
+      <div class="urgency">
+        <p>Seu plano personalizado está disponível agora</p>
+        <strong>Acesso especial para quem completou o diagnóstico</strong>
+      </div>
+      <button class="btn-cta" onclick="alert('Redirecionar para página de vendas')">Quero meu plano personalizado →</button>
+      <p class="guarantee">🔒 Satisfação garantida · Sem contratos · Cancele quando quiser</p>
+    </div>`;
+    }
+
+    /* ── INTERACTIONS ── */
+    function selSingle(key, val, el) {
+      ans[key] = val;
+      const s = steps[cur];
+
+      if (s.insight) {
+        showingInsight = true;
+        render();
+      } else {
+        next();
+      }
+    }
+
+    function toggleM(key, val, el) {
+      if (!multi[key]) multi[key] = [];
+      const a = multi[key], i = a.indexOf(val);
+      if (i > -1) { a.splice(i, 1); el.classList.remove('selected'); }
+      else { a.push(val); el.classList.add('selected'); }
+      const b = $('btnNext'); if (b) b.disabled = a.length === 0;
+    }
+
+    function next() {
+      if (showingInsight) {
+        showingInsight = false;
+      }
+      cur++; if (cur >= steps.length) return;
+      render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function prev() {
+      if (showingInsight) {
+        showingInsight = false;
+        render();
+        return;
+      }
+      if (cur > 0) {
+        cur--;
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    render();
+  </script>
+</body>
+
+</html>
